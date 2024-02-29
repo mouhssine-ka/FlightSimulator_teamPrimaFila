@@ -17,7 +17,7 @@ public class FlottaTests
         lista.Add(aereo2);
         lista.Add(aereo3);
 
-        Flotta f = new Flotta(1, lista, "flotta1");
+        Flotta f = new Flotta(1, "FLOTTA 1", lista);
 
         // ACT
         var aereo = f.GetAereoById(aereo1.AereoId);
@@ -41,8 +41,9 @@ public class FlottaTests
         lista.Add(aereo1);
         lista.Add(aereo2);
         lista.Add(aereo3);
-        
-        Flotta f = new Flotta(1, lista, "flotta2");
+
+        Flotta f = new Flotta(1, "FLOTTA 1", lista);
+
         int idAereoNonEsistente = 10;
 
         // ACT

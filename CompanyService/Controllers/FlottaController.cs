@@ -11,11 +11,13 @@ namespace AirRouteAdministrator.API;
 [Route("api/v{version:apiVersion}/flotta")]
 public class FlottaController : ControllerBase
 {
-     private IDatabaseService _databaseService;
+    private IDatabaseService _databaseService;
+    private IConversionService _conversionService;
 
-    public FlottaController(IDatabaseService databaseService)
+    public FlottaController(IDatabaseService databaseService, IConversionService conversionService)
     {
         _databaseService = databaseService;
+        _conversionService = conversionService;
     }
 
     [HttpGet()]
@@ -38,7 +40,7 @@ public class FlottaController : ControllerBase
         }
 
         // convertiamo nel modello del contratto
-        var result = FlottaApi.FlottaApiFactory(flotta.FlottaId, aerei, flotta.Nome);
+        var result = FlottaApi.FlottaApiFactory(flotta.FlottaId, flotta.Nome, aerei);
         return Ok(result);
     }
 
@@ -50,8 +52,8 @@ public class FlottaController : ControllerBase
         // Recupero le informazioni dal db     
         var flotte = await _databaseService.GetElencoFlotte();
         List<FlottaApi> flotteApi = new List<FlottaApi>();
-        
-        foreach (var flotta in flotte)        
+
+        foreach (var flotta in flotte)
         {
             List<AereoApi> aerei = new List<AereoApi>();
             foreach (var aereo in flotta.Aerei)
@@ -60,7 +62,7 @@ public class FlottaController : ControllerBase
                 aerei.Add(a);
             }
 
-            flotteApi.Add(FlottaApi.FlottaApiFactory(flotta.FlottaId, aerei, flotta.Nome));
+            flotteApi.Add(FlottaApi.FlottaApiFactory(flotta.FlottaId, flotta.Nome, aerei));
         }
         return Ok(flotteApi);
     }
@@ -70,19 +72,19 @@ public class FlottaController : ControllerBase
     [ProducesResponseType(typeof(long), (int)HttpStatusCode.NotFound)]
     [ProducesResponseType(typeof(FlottaApi), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> Post(CreateFlottaRequest request)
-    {       
+    {
         // Inserimento nel database
-        var flotta = await _databaseService.CreateFlotta(request.Nome);
+        var flotta = await _databaseService.CreateFlotta(request.NomeFlotta);
 
         List<AereoApi> aerei = new List<AereoApi>();
         foreach (var aereo in flotta.Aerei)
         {
-            var a = new AereoApi(aereo.AereoId, aereo.CodiceAereo, aereo.Colore, aereo.NumeroDiPosti);
+            var a = _conversionService.ConvertAereoToAereoApi(aereo);
             aerei.Add(a);
         }
 
         // Converto il modello di bl in quello api
-        var flottaApi = new FlottaApi(flotta.FlottaId, aerei, flotta.Nome);
+        var flottaApi = _conversionService.ConvertFlottaToFlottaApi(flotta, aerei);
 
         // Restituisco il modello api
         return Ok(flottaApi);

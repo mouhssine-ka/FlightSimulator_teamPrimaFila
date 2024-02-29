@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CompanyService.Migrations
 {
     [DbContext(typeof(FlightSimulatorDBContext))]
-    [Migration("20240216154620_aggiunto nome alla flotta")]
-    partial class aggiuntonomeallaflotta
+    [Migration("20240228094048_flotta aggiunto campo Nome")]
+    partial class flottaaggiuntocampoNome
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

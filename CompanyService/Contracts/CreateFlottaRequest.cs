@@ -2,10 +2,15 @@ namespace CompanyService;
 
 public class CreateFlottaRequest
 {
-   public string Nome {get; set;}
-    
-    public CreateFlottaRequest(string nome)
+    public string NomeFlotta { get; set; }
+
+    public CreateFlottaRequest()
     {        
-        Nome = nome;  
+       
+    }
+
+    public CreateFlottaRequest(string nomeFlotta)
+    {
+        NomeFlotta = nomeFlotta;
     }
 }

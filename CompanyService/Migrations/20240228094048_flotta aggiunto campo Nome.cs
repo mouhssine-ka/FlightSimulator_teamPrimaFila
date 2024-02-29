@@ -5,7 +5,7 @@
 namespace CompanyService.Migrations
 {
     /// <inheritdoc />
-    public partial class aggiuntonomeallaflotta : Migration
+    public partial class flottaaggiuntocampoNome : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

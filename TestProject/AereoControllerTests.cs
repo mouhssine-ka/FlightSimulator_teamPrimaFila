@@ -30,7 +30,7 @@ public class AereoControllerTests{
         
         // ARRANGE
         var database = new Mock<IDatabaseService>();
-        database.Setup(x => x.GetFlottaByIdFlotta(It.IsAny<long>())).ReturnsAsync(new Flotta(1,new List<Aereo>(), "fff"));
+        database.Setup(x => x.GetFlottaByIdFlotta(It.IsAny<long>())).ReturnsAsync(new Flotta(1, "FLOTTA 1", new List<Aereo>()));
         database.Setup(x => x.AddAereoAFlotta(It.IsAny<long>(), It.IsAny<string>(),It.IsAny<string>(),It.IsAny<long>())).ReturnsAsync(new Aereo(1,10000, "MONTI", "ASADADADA", 100));
 
         var _aereoController = new AereoController(database.Object);
@@ -52,7 +52,7 @@ public class AereoControllerTests{
         // ARRANGE
          var database = new Mock<IDatabaseService>();
         database.Setup(x => x.GetAereoDaIdAereo(It.IsAny<long>())).ReturnsAsync(new Aereo(1, 10000,"MONTI", "ASADADADA", 100));
-         database.Setup(x => x.GetFlottaByIdFlotta(It.IsAny<long>())).ReturnsAsync(new Flotta(1,new List<Aereo>(), "flootaooo"));
+         database.Setup(x => x.GetFlottaByIdFlotta(It.IsAny<long>())).ReturnsAsync(new Flotta(1, "FLOTTA 1", new List<Aereo>()));
         database.Setup(x => x.AddAereoAFlotta(It.IsAny<long>(), It.IsAny<string>(),It.IsAny<string>(),It.IsAny<long>())).ReturnsAsync(new Aereo(1, 10000,"MONTI", "ASADADADA", 100));
         
         var _aereoController = new AereoController(database.Object);

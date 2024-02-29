@@ -5,19 +5,24 @@ namespace CompanyService;
 public class Flotta
 {
     public long FlottaId { get; set; }
-    public string Nome {get; set;}
+    public string Nome { get; set; }
     public virtual ICollection<Aereo> Aerei { get; set; }
 
-    public Flotta(string nome)
+    public Flotta()
     {
-        Nome = nome;
+
     } 
 
-    public Flotta(long idFLotta, List<Aereo> aerei, string nome)
+    public Flotta(long idFLotta, string nome, List<Aereo> aerei)
     {
         FlottaId = idFLotta;
-        Aerei = aerei;
         Nome = nome;
+        Aerei = aerei;
+    }
+
+    public static Flotta FlottaFactory(string nome)
+    {
+        return new Flotta(0, nome, new List<Aereo>());
     }
 
     public Aereo? GetAereoById(long idAereo)
