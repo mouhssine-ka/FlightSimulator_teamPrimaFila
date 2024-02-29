@@ -22,4 +22,6 @@ public interface IDatabaseService
     Task<Volo?>GetVoloByID(long idVolo);
 
     Task<Biglietto?>GetBigliettoByID(long idBiglietto);
+
+    Task<Biglietto?> AddBiglietto();
 }
