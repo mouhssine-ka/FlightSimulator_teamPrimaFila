@@ -26,4 +26,17 @@ public class Volo
         Biglietti=biglietti;
         
     }
+    public Volo(Aereo aereo, long postiRimanenti, decimal costoDelPosto,
+     string cittaPartenza, string cittaArrivo, DateTime orarioPartenza, DateTime orarioArrivo)
+    {
+        Aereo = aereo;
+        PostiRimanenti = postiRimanenti;
+        CostoDelPosto = costoDelPosto;
+        CittaPartenza = cittaPartenza;
+        CittaArrivo = cittaArrivo;
+        OrarioPartenza = orarioPartenza;
+        OrarioArrivo = orarioArrivo;
+        
+    }
 }
+

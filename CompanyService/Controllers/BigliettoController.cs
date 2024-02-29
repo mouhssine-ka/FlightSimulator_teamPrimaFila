@@ -73,25 +73,39 @@ public class BigliettoController : ControllerBase
     public async Task<IActionResult> Post(CreateBigliettoRequest request)
     {
         // Verifichiamo l'esistenza del biglietto
-        var biglietto = await _databaseService.GetBigliettoByID(request.BigliettoId);
-        if (biglietto == null)
+        List< Biglietto> biglietti = await _databaseService.GetElencoBiglietti();
+        if (biglietti == null)
         {
             return BadRequest("NON HO TROVATO NESSUN BIGLIETTO");
         }
 
-        foreach(var b in)
+        foreach(var b in biglietti)
         {
            // Inserimento nel database
-           var bigliettoBl = await _databaseService.AddBiglietti(request.Volo, request.PostiPrenotati, request., request.); 
+           var bigliettoBl = await _databaseService.AddBiglietti(b.VoloId, b.PostiPrenotati, b.Totale);
         }
         
         // Converto il modello di bl in quello api
-        var aereoApi = new AereoApi(aereoBl.AereoId, aereoBl.CodiceAereo, aereoBl.Colore, aereoBl.NumeroDiPosti);
+        var bigliettoApi = new AddBigliettoRequest(bigliettoBl.VoloId, bigliettoBl.PostiPrenotati, bigliettoBl.Totale);
 
         // Restituisco il modello api
-        return Ok(aereoApi);
+        return Ok(AddBigliettoRequest);
     }
 
 
     // Delete(long idBiglietto)
+    [HttpDelete()]
+    [ProducesResponseType(typeof(long), (int)HttpStatusCode.NotFound)]
+    [ProducesResponseType(typeof(BigliettoApi), (int)HttpStatusCode.OK)]
+    public async Task<IActionResult> Delete(long idBiglietto)
+    {
+         // Recupero le informazioni dal db     
+        var biglietto = await _databaseService.GetBigliettoByID(idBiglietto);
+        if (biglietto == null)
+        {
+            return NotFound("NON E' STATO TROVATO NESSUNO BIGLIETTO");
+        }
+        await _databaseService.DeleteAereoDaIdAereo(idBiglietto);
+        return Ok();
+    }
 }
