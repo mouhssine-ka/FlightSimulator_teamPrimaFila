@@ -105,7 +105,7 @@ public class BigliettoController : ControllerBase
     // Delete(long idBiglietto)
     [HttpDelete()]
     [ProducesResponseType(typeof(long), (int)HttpStatusCode.NotFound)]
-    [ProducesResponseType(typeof(BigliettoApi), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(HttpStatusCode), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> Delete(long idBiglietto)
     {
          // Recupero le informazioni dal db     
