@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Server.HttpSys;
 
 namespace CompanyService.Controllers;
 
@@ -72,24 +73,32 @@ public class BigliettoController : ControllerBase
     [ProducesResponseType(typeof(BigliettoApi), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> Post(CreateBigliettoRequest request)
     {
-        // Verifichiamo l'esistenza del biglietto
-        List< Biglietto> biglietti = await _databaseService.GetElencoBiglietti();
-        if (biglietti == null)
-        {
-            return BadRequest("NON HO TROVATO NESSUN BIGLIETTO");
+        List<Volo> voli = await _databaseService.GetElencoVoli();
+
+        if(voli == null){
+            return BadRequest("Non è stato trovato nessun volo");
         }
 
-        foreach(var b in biglietti)
-        {
-           // Inserimento nel database
-           var bigliettoBl = await _databaseService.AddBiglietti(b.VoloId, b.PostiPrenotati, b.Totale);
+        Volo? volo = voli.FirstOrDefault(x => x.VoloId == request.IdVolo);
+
+        if(volo == null){
+            return BadRequest("Non è presente nessun volo con l'id " + request.IdVolo);
         }
-        
-        // Converto il modello di bl in quello api
-        var bigliettoApi = new AddBigliettoRequest(bigliettoBl.VoloId, bigliettoBl.PostiPrenotati, bigliettoBl.Totale);
+
+        if((volo.PostiRimanenti - volo.Biglietti.Count) < 1){
+            return BadRequest("Tutti i posti sono occupati");
+        }
+
+        if(volo.PostiRimanenti - request.PostiPrenotati < 0){
+            return BadRequest("Il numero posti da prenotari non è disponibile");
+        }
+
+        var biglietto = new Biglietto(volo, request.PostiPrenotati);
+
+
 
         // Restituisco il modello api
-        return Ok(AddBigliettoRequest);
+        return Ok(biglietto);
     }
 
 
