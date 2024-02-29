@@ -120,4 +120,15 @@ public class EFDatabase : IDatabaseService
         await _context.SaveChangesAsync();
         return b;
     }
+
+
+    public async Task DeleteBigliettoByID(long idBiglietto)
+    {
+        var biglietto = await GetBigliettoByID(idBiglietto);
+        if (biglietto != null)
+        {
+            _context.Biglietti.Remove(biglietto);
+            await _context.SaveChangesAsync();
+        }
+    }
 }

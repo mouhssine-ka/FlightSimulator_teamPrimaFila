@@ -105,7 +105,7 @@ public class BigliettoController : ControllerBase
         {
             return NotFound("NON E' STATO TROVATO NESSUNO BIGLIETTO");
         }
-        await _databaseService.DeleteAereoDaIdAereo(idBiglietto);
+        await _databaseService.DeleteBigliettoByID(idBiglietto);
         return Ok();
     }
 }
