@@ -20,8 +20,11 @@ public interface IDatabaseService
     Task<Flotta> CreateFlotta(string nome);
 
     Task<Volo?>GetVoloByID(long idVolo);
+    Task<List<Volo>> GetElencoVoli();
+    //Task<Volo?> AddVolo();
 
     Task<Biglietto?>GetBigliettoByID(long idBiglietto);
 
     Task<Biglietto?> AddBiglietto();
+
 }
