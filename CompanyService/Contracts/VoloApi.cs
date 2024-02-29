@@ -10,17 +10,20 @@ public class VoloApi
     public string CittaArrivo { get; set; }
     public DateTime OrarioPartenza { get; set; }
     public DateTime OrarioArrivo { get; set; }
+    public List<Biglietto> Biglietti = new List<Biglietto>();
 
-    public VoloApi(string idVolo, Aereo aereo, long postiRimanenti, decimal costroDelPorsto,
-    string cittaPartenza, string cittaArrivo, DateTime orarioPartenza, DateTime orarioArrivo)
+    public VoloApi(string idVolo, Aereo aereo, long postiRimanenti, decimal costoDelPosto,
+    string cittaPartenza, string cittaArrivo, DateTime orarioPartenza, DateTime orarioArrivo,List<Biglietto> biglietti )
     {
         IdVolo = idVolo;
         Aereo = aereo;
         PostiRimanenti = postiRimanenti;
-        CostoDelPosto = costroDelPorsto;
+        CostoDelPosto = costoDelPosto;
         CittaPartenza = cittaPartenza;
         CittaArrivo = cittaArrivo;
         OrarioPartenza = orarioPartenza;
         OrarioArrivo = orarioArrivo;
+        Biglietti=biglietti;
+
     }
 }
