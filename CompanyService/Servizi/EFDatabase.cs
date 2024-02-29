@@ -97,4 +97,8 @@ public class EFDatabase : IDatabaseService
         await _context.SaveChangesAsync();
         return v;
     }
+    public async Task<List<Biglietto>> GetElencoBiglietti(){
+        var biglietti = await _context.Biglietti.Include(b=> b.Volo).ToListAsync();
+        return biglietti;
+    }
 }
