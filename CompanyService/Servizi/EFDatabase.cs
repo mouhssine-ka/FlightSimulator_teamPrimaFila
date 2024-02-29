@@ -70,4 +70,31 @@ public class EFDatabase : IDatabaseService
         }           
         return aereo;
     }
+
+    public async Task<Volo?> GetVoloByID(long idVolo)
+    {
+           return await _context.Voli.FirstOrDefaultAsync(
+            x => x.IdVolo == idVolo
+        );
+    }
+
+    public async Task DeleteVoloByID(long idVolo)
+    {
+        var volo = await GetVoloByID(idVolo);
+        if (volo != null)
+        {
+            _context.Voli.Remove(volo);
+            await _context.SaveChangesAsync();
+        }
+        
+    }
+
+    public async Task<Volo> AddVolo(Aereo aereo, long postiRimanenti, decimal costoDelPosto, string cittaPartenza, string cittaArrivo, DateTime orarioPartenza, DateTime orarioArrivo)
+    {
+        
+        Volo v = new Volo(aereo, postiRimanenti, costoDelPosto, cittaPartenza, cittaArrivo, orarioPartenza, orarioArrivo);
+        await _context.Voli.AddAsync(v);
+        await _context.SaveChangesAsync();
+        return v;
+    }
 }
