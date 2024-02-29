@@ -1,4 +1,6 @@
-﻿namespace CompanyService;
+﻿using System.Net.Sockets;
+
+namespace CompanyService;
 
 public interface IDatabaseService
 {
@@ -16,4 +18,8 @@ public interface IDatabaseService
     Task<List<Flotta>> GetElencoFlotte();
 
     Task<Flotta> CreateFlotta(string nome);
+
+    Task<Volo?>GetVoloByID(long idVolo);
+
+    Task<Biglietto?>GetBigliettoByID(long idBiglietto);
 }
