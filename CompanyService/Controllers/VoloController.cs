@@ -43,7 +43,7 @@ public class VoloController : ControllerBase
         volo.CittaPartenza,volo.CittaArrivo,volo.OrarioArrivo,volo.OrarioArrivo,volo.Biglietti);
         return Ok(result);
     }
-    [HttpGet()]
+    [HttpGet("GetVoliConPostiDisponibili")]
     [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
     [ProducesResponseType(typeof(VoloApi), (int)HttpStatusCode.OK)]
 

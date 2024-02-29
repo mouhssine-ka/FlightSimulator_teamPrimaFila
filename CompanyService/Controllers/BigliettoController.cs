@@ -36,7 +36,7 @@ public class BigliettoController : ControllerBase
     }
 
     // GetBigliettiByVoloId(long idVolo)
-    [HttpGet()]
+    [HttpGet("GetBigliettiByVolo")]
     [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
     [ProducesResponseType(typeof(List<BigliettoApi>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetBigliettiByVolo(long idVolo)
