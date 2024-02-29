@@ -2,7 +2,7 @@
 
 public class Volo
 {
-    public string IdVolo { get; set; }
+    public long IdVolo { get; set; }
     public Aereo Aereo { get; set; }
     public long PostiRimanenti { get; set; }
     public decimal CostoDelPosto { get; set; }
@@ -12,7 +12,7 @@ public class Volo
     public DateTime OrarioArrivo { get; set; }
 
     public List<Biglietto> Biglietti = new List<Biglietto>();
-    public Volo(string idVolo, Aereo aereo, long postiRimanenti, decimal costoDelPosto,
+    public Volo(long idVolo, Aereo aereo, long postiRimanenti, decimal costoDelPosto,
      string cittaPartenza, string cittaArrivo, DateTime orarioPartenza, DateTime orarioArrivo,List<Biglietto> biglietti  )
     {
         IdVolo = idVolo;
