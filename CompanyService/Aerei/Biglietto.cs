@@ -16,4 +16,9 @@ public class Biglietto
         ImportoTotale = importoTotale;
         DataAcquisto = dataAcquisto;
     }
+    public Biglietto(Volo volo, int postiPrenotati)
+    {
+        Volo = volo;
+        PostiPrenotati = postiPrenotati;
+    }
 }

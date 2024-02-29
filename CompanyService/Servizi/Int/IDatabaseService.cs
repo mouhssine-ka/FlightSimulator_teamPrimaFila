@@ -21,7 +21,7 @@ public interface IDatabaseService
 
     Task<Volo?>GetVoloByID(long idVolo);
     
-    Task<Biglietto?>DeleteVoloByID(long idVolo);
+    Task DeleteVoloByID(long idVolo);
     Task<List<Volo>> GetElencoVoli();
     Task<Volo?> AddVolo(Aereo aereo, long postiRimanenti, decimal costoDelPosto, string cittaPartenza, string cittaArrivo, DateTime orarioPartenza, DateTime orarioArrivo);
 

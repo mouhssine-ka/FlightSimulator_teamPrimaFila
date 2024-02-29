@@ -74,7 +74,7 @@ public class EFDatabase : IDatabaseService
 
     public async Task<Volo?> GetVoloByID(long idVolo)
     {
-           var volo = await _context.Voli.Where(x => x.IdVolo == idVolo).Include(b => b.Biglietti).FirstOrDefaultAsync();
+           var volo = await _context.Voli.Where(x => x.VoloId == idVolo).Include(b => b.Biglietti).FirstOrDefaultAsync();
            return volo;
     }
 
@@ -100,5 +100,24 @@ public class EFDatabase : IDatabaseService
     public async Task<List<Biglietto>> GetElencoBiglietti(){
         var biglietti = await _context.Biglietti.Include(b=> b.Volo).ToListAsync();
         return biglietti;
+    }
+    public async Task<List<Volo>> GetElencoVoli(){
+        var voli = await _context.Voli.Include(b => b.Biglietti).ToListAsync();
+        return voli;
+    }
+
+
+    public async Task<Biglietto?> GetBigliettoByID(long idBiglietto)
+    {
+           var biglietto = await _context.Biglietti.Where(x => x.BigliettoId == idBiglietto).Include(b => b.Volo).FirstOrDefaultAsync();
+           return biglietto;
+    }
+
+    public async Task<Biglietto> AddBiglietto(Volo volo, int postiPrenotati)
+    {
+        Biglietto b = new Biglietto(volo, postiPrenotati);
+        await _context.Biglietti.AddAsync(b);
+        await _context.SaveChangesAsync();
+        return b;
     }
 }
