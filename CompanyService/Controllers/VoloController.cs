@@ -33,13 +33,13 @@ public class VoloController : ControllerBase
         List<VoloApi> voli = new List<VoloApi>();
         foreach (var Volo in voli)
         {
-            VoloApi a = new VoloApi(volo.IdVolo,volo.Aereo,volo.PostiRimanenti,
+            VoloApi a = new VoloApi(volo.VoloId,volo.Aereo,volo.PostiRimanenti,
         volo.CostoDelPosto,volo.CittaPartenza,volo.CittaArrivo,volo.OrarioPartenza,volo.OrarioArrivo,Volo.Biglietti);
             voli.Add(a);
         }
 
         // convertiamo nel modello del contratto
-        var result = new VoloApi(volo.IdVolo,volo.Aereo,volo.PostiRimanenti,volo.CostoDelPosto,
+        var result = new VoloApi(volo.VoloId,volo.Aereo,volo.PostiRimanenti,volo.CostoDelPosto,
         volo.CittaPartenza,volo.CittaArrivo,volo.OrarioArrivo,volo.OrarioArrivo,volo.Biglietti);
         return Ok(result);
     }
@@ -55,7 +55,7 @@ public class VoloController : ControllerBase
         {
             if (volo.PostiRimanenti > 0)
             {
-            var result = new VoloApi(volo.IdVolo,volo.Aereo,volo.PostiRimanenti,volo.CostoDelPosto,
+            var result = new VoloApi(volo.VoloId,volo.Aereo,volo.PostiRimanenti,volo.CostoDelPosto,
             volo.CittaPartenza,volo.CittaArrivo,volo.OrarioArrivo,volo.OrarioArrivo,volo.Biglietti);
             return Ok(result);
             }
@@ -86,30 +86,30 @@ public class VoloController : ControllerBase
         {
             return NotFound();
         }
-        await _databaseService.DeleteVoloDaId(volo);
+        await _databaseService.DeleteVoloByID(volo.VoloId);
         return Ok();
     }
 
-    [HttpPut()]
-    [ProducesResponseType(typeof(long), (int)HttpStatusCode.NotFound)]
-    [ProducesResponseType(typeof(VoloApi), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> Put(UpdateVoloRequest request)
-    {
-         // Recupero le informazioni dal db     
-         var volo = await _databaseService.GetVoloByID(idVolo);
-        if (volo == null)
-        {
-            return NotFound();
-        }
+    // [HttpPut()]
+    // [ProducesResponseType(typeof(long), (int)HttpStatusCode.NotFound)]
+    // [ProducesResponseType(typeof(VoloApi), (int)HttpStatusCode.OK)]
+    // public async Task<IActionResult> Put(UpdateVoloRequest request)
+    // {
+    //      // Recupero le informazioni dal db     
+    //      var volo = await _databaseService.GetVoloByID(idVolo);
+    //     if (volo == null)
+    //     {
+    //         return NotFound();
+    //     }
 
-        var voloBl = await _databaseService.UpdateVoloRequest(request.IdAereo, request.OrarioPartenza, request.OrarioArrivo);
+    //     var voloBl = await _databaseService.UpdateVoloRequest(request.IdAereo, request.OrarioPartenza, request.OrarioArrivo);
 
-         // Converto il modello di bl in quello api
-        var voloApi = new VoloApi(voloBl.idVolo, voloBl.aereo, voloBl.postiRimanenti, voloBl.costoDelPosto,
-        voloBl.cittaPartenza, voloBl.cittaArrivo, voloBl.orarioPartenza, voloBl.orarioArrivo,voloBl.biglietti);
+    //      // Converto il modello di bl in quello api
+    //     var voloApi = new VoloApi(voloBl.idVolo, voloBl.aereo, voloBl.postiRimanenti, voloBl.costoDelPosto,
+    //     voloBl.cittaPartenza, voloBl.cittaArrivo, voloBl.orarioPartenza, voloBl.orarioArrivo,voloBl.biglietti);
 
-        // Restituisco il modello api
-        return Ok(voloApi);
+    //     // Restituisco il modello api
+    //     return Ok(voloApi);
 
-    }
+    // }
 }
