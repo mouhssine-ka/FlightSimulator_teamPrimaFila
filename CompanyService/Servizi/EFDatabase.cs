@@ -113,9 +113,9 @@ public class EFDatabase : IDatabaseService
            return biglietto;
     }
 
-    public async Task<Biglietto> AddBiglietto(Volo volo, int postiPrenotati)
+    public async Task<Biglietto> AddBiglietto(Volo volo, int postiPrenotati, double importoTotale)
     {
-        Biglietto b = new Biglietto(volo, postiPrenotati);
+        Biglietto b = new Biglietto(volo, postiPrenotati, importoTotale, DateTime.Now);
         await _context.Biglietti.AddAsync(b);
         await _context.SaveChangesAsync();
         return b;

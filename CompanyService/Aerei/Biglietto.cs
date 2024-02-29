@@ -19,9 +19,11 @@ public class Biglietto
         ImportoTotale = importoTotale;
         DataAcquisto = dataAcquisto;
     }
-    public Biglietto(Volo volo, int postiPrenotati)
+    public Biglietto(Volo volo, int postiPrenotati, double importoTotale, DateTime dataAcquisto)
     {
         Volo = volo;
         PostiPrenotati = postiPrenotati;
+        ImportoTotale = importoTotale;
+        DataAcquisto = dataAcquisto;
     }
 }
