@@ -68,6 +68,16 @@ Aereo a2 = new Aereo(f2.FlottaId,"CCCDDD", "Giallo", 80);
 db.Aerei.Add(a2); 
 Aereo a3 = new Aereo(f2.FlottaId,"EEEFFF", "Rosa", 80);
 db.Aerei.Add(a3); 
+
+Volo v1 = new Volo(a1, 200, 100, "Bologna", "Rimini", DateTime.Now, DateTime.Now);
+db.Voli.Add(v1);
+
+Biglietto b1 = new Biglietto(v1, 5, 500, DateTime.Now);
+Biglietto b2 = new Biglietto(v1, 3, 300, DateTime.Now);
+db.Biglietti.Add(b1);
+db.Biglietti.Add(b2);
+
+
 db.SaveChanges();
 
 var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();

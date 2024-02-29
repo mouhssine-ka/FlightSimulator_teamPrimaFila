@@ -44,17 +44,17 @@ public class BigliettoController : ControllerBase
         List<BigliettoApi> BigliettiPerVolo = new List<BigliettoApi>();
     
         // Recupero le informazioni dal db     
-     var volo = await _databaseService.GetVoloByID(idVolo);
+        var Biglietti = await _databaseService.GetElencoBiglietti();
 
-        if (volo == null)
+        if (Biglietti == null)
         {
             return NotFound("NON E' STATO TROVATO NESSUNO BIGLIETTO");
         }
 
-        foreach(var biglietto in volo.Biglietti)
+        foreach(var biglietto in Biglietti)
         {
         // convertiamo nel modello del contratto
-            var bigliettoVolo = new BigliettoApi(biglietto.BigliettoId, volo,
+            var bigliettoVolo = new BigliettoApi(biglietto.BigliettoId, biglietto.Volo,
             biglietto.PostiPrenotati, biglietto.ImportoTotale, biglietto.DataAcquisto);
 
             BigliettiPerVolo.Add(bigliettoVolo);
