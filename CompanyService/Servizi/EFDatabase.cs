@@ -1,4 +1,5 @@
 ﻿
+using System.IO.Compression;
 using Microsoft.EntityFrameworkCore;
 
 namespace CompanyService;
@@ -73,9 +74,8 @@ public class EFDatabase : IDatabaseService
 
     public async Task<Volo?> GetVoloByID(long idVolo)
     {
-           return await _context.Voli.FirstOrDefaultAsync(
-            x => x.IdVolo == idVolo
-        );
+           var volo = await _context.Voli.Where(x => x.IdVolo == idVolo).Include(b => b.Biglietti).FirstOrDefaultAsync();
+           return volo;
     }
 
     public async Task DeleteVoloByID(long idVolo)
