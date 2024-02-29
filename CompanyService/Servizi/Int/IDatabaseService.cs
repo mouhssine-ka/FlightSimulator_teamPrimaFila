@@ -26,5 +26,6 @@ public interface IDatabaseService
     Task<Biglietto?>GetBigliettoByID(long idBiglietto);
 
     Task<Biglietto?> AddBiglietto();
+    Task<List<Biglietto>> GetElencoBiglietti();
 
 }
