@@ -12,6 +12,10 @@ public class Volo
     public DateTime OrarioArrivo { get; set; }
 
     public List<Biglietto> Biglietti = new List<Biglietto>();
+
+    public Volo(){
+        
+    }
     public Volo(long idVolo, Aereo aereo, long postiRimanenti, decimal costoDelPosto,
      string cittaPartenza, string cittaArrivo, DateTime orarioPartenza, DateTime orarioArrivo,List<Biglietto> biglietti  )
     {

@@ -8,6 +8,9 @@ public class Biglietto
     public double ImportoTotale {get; set;}
     public DateTime DataAcquisto {get; set;}
 
+    public Biglietto(){
+        
+    }
     public Biglietto(int bigliettoId, Volo volo, int postiPrenotati, double importoTotale, DateTime dataAcquisto)
     {
         BigliettoId = bigliettoId;
