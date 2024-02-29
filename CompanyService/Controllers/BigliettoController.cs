@@ -93,9 +93,8 @@ public class BigliettoController : ControllerBase
             return BadRequest("Il numero posti da prenotari non è disponibile");
         }
 
-        var biglietto = new Biglietto(volo, request.PostiPrenotati, request.ImportoTotale, DateTime.Now);
-
-
+        decimal importoTotale = request.PostiPrenotati * volo.CostoDelPosto;
+        var biglietto = new Biglietto(volo, request.PostiPrenotati, importoTotale, DateTime.Now);
 
         // Restituisco il modello api
         return Ok(biglietto);

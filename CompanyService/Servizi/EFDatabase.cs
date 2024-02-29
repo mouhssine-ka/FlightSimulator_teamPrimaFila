@@ -102,7 +102,7 @@ public class EFDatabase : IDatabaseService
         return biglietti;
     }
     public async Task<List<Volo>> GetElencoVoli(){
-        var voli = await _context.Voli.Include(b => b.Biglietti).ToListAsync();
+        var voli = await _context.Voli.Include(a => a.Aereo).ToListAsync();
         return voli;
     }
 
@@ -113,8 +113,9 @@ public class EFDatabase : IDatabaseService
            return biglietto;
     }
 
-    public async Task<Biglietto> AddBiglietto(Volo volo, int postiPrenotati, double importoTotale)
+    public async Task<Biglietto> AddBiglietto(Volo volo, int postiPrenotati)
     {
+        var importoTotale = postiPrenotati * volo.CostoDelPosto;
         Biglietto b = new Biglietto(volo, postiPrenotati, importoTotale, DateTime.Now);
         await _context.Biglietti.AddAsync(b);
         await _context.SaveChangesAsync();
