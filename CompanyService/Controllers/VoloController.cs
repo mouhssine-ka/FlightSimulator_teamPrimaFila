@@ -49,7 +49,7 @@ public class VoloController : ControllerBase
 
     [HttpGet("GetVoliConPostiDisponibili")]
     [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-    [ProducesResponseType(typeof(VoloApi), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(List<VoloApi>), (int)HttpStatusCode.OK)]
 
     public async Task<IActionResult> GetVoliConPostiDisponibili()
     {
@@ -63,6 +63,7 @@ public class VoloController : ControllerBase
                 var result = new VoloApi(volo.VoloId, volo.Aereo, volo.PostiRimanenti, volo.CostoDelPosto,
                 volo.CittaPartenza, volo.CittaArrivo, volo.OrarioArrivo, volo.OrarioArrivo, volo.Biglietti);
                 voliConPostiDisponibili.Add(result);
+
             }
         }
         return Ok(voliConPostiDisponibili);
@@ -70,14 +71,14 @@ public class VoloController : ControllerBase
     }
     [HttpGet("GetTuttiVoli")]
     [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-    [ProducesResponseType(typeof(VoloApi), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(List<VoloApi>), (int)HttpStatusCode.OK)]
 
     public async Task<IActionResult> GetTuttiVoli()
     {
         // Recupero le informazioni dal db     
         var Voli = await _databaseService.GetElencoVoli();
         var voliConPostiDisponibili = new List<VoloApi>();
-        
+
         foreach (var volo in Voli)
         {
             var result = new VoloApi(volo.VoloId, volo.Aereo, volo.PostiRimanenti, volo.CostoDelPosto,
