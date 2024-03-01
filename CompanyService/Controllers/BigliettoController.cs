@@ -30,7 +30,7 @@ public class BigliettoController : ControllerBase
 
         // convertiamo nel modello del contratto
         var result = new BigliettoApi(biglietto.BigliettoId, biglietto.Volo,
-        biglietto.PostiPrenotati, biglietto.ImportoTotale, biglietto.DataAcquisto);
+        biglietto.PostiDaPrenotare, biglietto.ImportoTotale, biglietto.DataAcquisto);
 
         return Ok(result);
     }
@@ -55,7 +55,7 @@ public class BigliettoController : ControllerBase
         {
         // convertiamo nel modello del contratto
             var bigliettoVolo = new BigliettoApi(biglietto.BigliettoId, biglietto.Volo,
-            biglietto.PostiPrenotati, biglietto.ImportoTotale, biglietto.DataAcquisto);
+            biglietto.PostiDaPrenotare, biglietto.ImportoTotale, biglietto.DataAcquisto);
 
             BigliettiPerVolo.Add(bigliettoVolo);
         }
@@ -66,7 +66,6 @@ public class BigliettoController : ControllerBase
         return Ok(BigliettiPerVolo);
     }
   
-
     // Post(CreateBigliettoRequest)
     [HttpPost()]
     [ProducesResponseType(typeof(long), (int)HttpStatusCode.NotFound)]
@@ -85,17 +84,19 @@ public class BigliettoController : ControllerBase
             return BadRequest("Non è presente nessun volo con l'id " + request.IdVolo);
         }
 
-        if((volo.PostiRimanenti - volo.Biglietti.Count) < 1){
-            return BadRequest("Tutti i posti sono occupati");
-        }
 
-        if(volo.PostiRimanenti - request.PostiPrenotati < 0){
+        if((volo.PostiRimanenti - request.PostiDaPrenotare) < 0){
             return BadRequest("Il numero posti da prenotari non è disponibile");
         }
 
-        decimal importoTotale = request.PostiPrenotati * volo.CostoDelPosto;
-        var biglietto = new Biglietto(volo, request.PostiPrenotati, importoTotale, DateTime.Now);
+        volo.PostiRimanenti = volo.PostiRimanenti - request.PostiDaPrenotare;
 
+
+        decimal importoTotale = request.PostiDaPrenotare * volo.CostoDelPosto;
+        var biglietto = new Biglietto(volo, request.PostiDaPrenotare, importoTotale, DateTime.Now);
+
+
+    
         // Restituisco il modello api
         return Ok(biglietto);
     }

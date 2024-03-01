@@ -1,5 +1,6 @@
 ﻿
 using System.IO.Compression;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 
 namespace CompanyService;
@@ -74,8 +75,8 @@ public class EFDatabase : IDatabaseService
 
     public async Task<Volo?> GetVoloByID(long idVolo)
     {
-           var volo = await _context.Voli.Where(x => x.VoloId == idVolo).Include(b => b.Biglietti).FirstOrDefaultAsync();
-           return volo;
+        var volo = await _context.Voli.Where(x => x.VoloId == idVolo).Include(a=> a.Aereo).FirstOrDefaultAsync();
+        return volo;
     }
 
     public async Task DeleteVoloByID(long idVolo)
@@ -89,10 +90,13 @@ public class EFDatabase : IDatabaseService
         
     }
 
-    public async Task<Volo> AddVolo(Aereo aereo, long postiRimanenti, decimal costoDelPosto, string cittaPartenza, string cittaArrivo, DateTime orarioPartenza, DateTime orarioArrivo)
+    public async Task<Volo> AddVolo(long aereoId, decimal costoDelPosto, string cittaPartenza, string cittaArrivo, DateTime orarioPartenza, DateTime orarioArrivo)
     {
-        
-        Volo v = new Volo(aereo, postiRimanenti, costoDelPosto, cittaPartenza, cittaArrivo, orarioPartenza, orarioArrivo);
+        Aereo? aereo = await _context.Aerei.FirstOrDefaultAsync(x=>x.AereoId == aereoId);
+        if(aereo == null){
+            return null;
+        }
+        Volo v = new Volo(aereo, aereo.NumeroDiPosti, costoDelPosto, cittaPartenza, cittaArrivo, orarioPartenza, orarioArrivo);
         await _context.Voli.AddAsync(v);
         await _context.SaveChangesAsync();
         return v;
@@ -109,7 +113,8 @@ public class EFDatabase : IDatabaseService
 
     public async Task<Biglietto?> GetBigliettoByID(long idBiglietto)
     {
-           var biglietto = await _context.Biglietti.Where(x => x.BigliettoId == idBiglietto).Include(b => b.Volo).FirstOrDefaultAsync();
+           var biglietto = await _context.Biglietti.Where(x => x.BigliettoId == idBiglietto).Include(b => b.Volo)
+           .ThenInclude(a => a.Aereo).FirstOrDefaultAsync();
            return biglietto;
     }
 
@@ -131,5 +136,22 @@ public class EFDatabase : IDatabaseService
             _context.Biglietti.Remove(biglietto);
             await _context.SaveChangesAsync();
         }
+    }
+
+    public async Task<Volo> UpdateVoloById(UpdateVoloRequest volo)
+    {
+        Volo? voloTrovato = await GetVoloByID(volo.VoloId);
+    
+        voloTrovato.Aereo.AereoId = volo.AereoId;
+        voloTrovato.PostiRimanenti = volo.Posti;
+        voloTrovato.CostoDelPosto = volo.CostoDelPosto;
+        voloTrovato.CittaPartenza = volo.CittaPartenza;
+        voloTrovato.CittaArrivo = volo.CittaArrivo;
+        voloTrovato.OrarioPartenza = volo.OrarioPartenza;
+        voloTrovato.OrarioArrivo= volo.OrarioArrivo;
+
+        await _context.SaveChangesAsync();
+        return voloTrovato;
+
     }
 }
