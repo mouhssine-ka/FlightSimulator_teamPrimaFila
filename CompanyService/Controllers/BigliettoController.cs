@@ -85,7 +85,7 @@ public class BigliettoController : ControllerBase
         }
 
 
-        if((volo.PostiRimanenti - request.PostiDaPrenotare) < 0){
+        if((volo.PostiRimanenti - request.PostiDaPrenotare) <= 0){
             return BadRequest("Il numero posti da prenotare non è disponibile");
         }
 
