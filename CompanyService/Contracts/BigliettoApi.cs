@@ -4,14 +4,14 @@ public class BigliettoApi
 {
     public int BigliettoId {get; set;}
     public Volo Volo {get; set;}
-    public int PostiPrenotati {get; set;}
+    public int PostiDaPrenotare {get; set;}
     public decimal ImportoTotale {get; set;}
     public DateTime DataAcquisto {get; set;}
-    public BigliettoApi(int bigliettoId, Volo volo, int postiPrenotati, decimal importoTotale, DateTime dataAcquisto)
+    public BigliettoApi(int bigliettoId, Volo volo, int postiDaPrenotare, decimal importoTotale, DateTime dataAcquisto)
     {
         BigliettoId = bigliettoId;
         Volo = volo;
-        PostiPrenotati = postiPrenotati;
+        PostiDaPrenotare = postiDaPrenotare;
         ImportoTotale = importoTotale;
         DataAcquisto = dataAcquisto;
     }

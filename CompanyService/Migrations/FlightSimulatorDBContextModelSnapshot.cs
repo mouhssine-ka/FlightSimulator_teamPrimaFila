@@ -65,7 +65,7 @@ namespace CompanyService.Migrations
                     b.Property<decimal>("ImportoTotale")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("PostiPrenotati")
+                    b.Property<int>("PostiDaPrenotare")
                         .HasColumnType("int");
 
                     b.Property<long>("VoloId")
