@@ -84,19 +84,17 @@ public class BigliettoController : ControllerBase
             return BadRequest("Non è presente nessun volo con l'id " + request.IdVolo);
         }
 
-
-        if((volo.PostiRimanenti - request.PostiDaPrenotare) <= 0){
+        if((volo.PostiRimanenti - request.PostiDaPrenotare) < 0){
             return BadRequest("Il numero posti da prenotare non è disponibile");
         }
 
         volo.PostiRimanenti = volo.PostiRimanenti - request.PostiDaPrenotare;
 
-
         decimal importoTotale = request.PostiDaPrenotare * volo.CostoDelPosto;
         var biglietto = new Biglietto(volo, request.PostiDaPrenotare, importoTotale, DateTime.Now);
 
-
-    
+        await _databaseService.AddBiglietto(volo, request.PostiDaPrenotare);
+        
         // Restituisco il modello api
         return Ok(biglietto);
     }
@@ -108,7 +106,7 @@ public class BigliettoController : ControllerBase
     [ProducesResponseType(typeof(HttpStatusCode), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> Delete(long idBiglietto)
     {
-         // Recupero le informazioni dal db     
+        // Recupero le informazioni dal db     
         var biglietto = await _databaseService.GetBigliettoByID(idBiglietto);
         if (biglietto == null)
         {

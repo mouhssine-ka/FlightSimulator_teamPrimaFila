@@ -82,7 +82,7 @@ public class VoloController : ControllerBase
         foreach (var volo in Voli)
         {
             var result = new VoloApi(volo.VoloId, volo.Aereo, volo.PostiRimanenti, volo.CostoDelPosto,
-            volo.CittaPartenza, volo.CittaArrivo, volo.OrarioArrivo, volo.OrarioArrivo, volo.Biglietti);
+            volo.CittaPartenza, volo.CittaArrivo, volo.OrarioPartenza, volo.OrarioArrivo, volo.Biglietti);
             voliConPostiDisponibili.Add(result);
         }
         return Ok(voliConPostiDisponibili);
